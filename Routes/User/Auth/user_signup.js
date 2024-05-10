@@ -1,14 +1,13 @@
 const express= require('express'); // import express js
-const users = require('../../../Models/signup'); // import userschema model
+const users = require('../../../Models/Users/User'); // import user-schema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
-// var fetchusers = require('../middleware/fetchusers')
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 
 
 
-//Router 1) create a user using post request: /api/auth/signup : no login required
+//Router 1) Create a user using post request:
  router.post('/signup',[
     // First_Name must be at least 3 chars long
     body('First_Name','First_Name must be atleast 3 charaters long').isLength({ min: 3 }),
@@ -24,6 +23,12 @@ const { body, validationResult } = require('express-validator'); //import expres
 
     // Password must be at least 3 chars long
     body('Password','Password must be atleast 3 charaters long').isLength({ min: 3 }),
+
+    // Age must be written
+    body('Age','Age must be written').not().isEmpty(),
+    
+    // Gender must be written
+    body('Gender','Gender must be written').not().isEmpty()
 
 
 
@@ -51,6 +56,8 @@ const { body, validationResult } = require('express-validator'); //import expres
    User_Name: req.body.User_Name,
    Phone_Number: req.body.Phone_Number,
    Password: secpass,
+   Age: req.body.Age,
+   Gender: req.body.Gender,
  })
  const data = {
    user :{
