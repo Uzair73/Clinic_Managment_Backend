@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 const UserSchema = mongoose.Schema({
     Email:{
         type : String,
-        unique: true,
         required: true
     },
     Password:{
-        type: String,
+        type : String,
         required: true
     }
 },
@@ -15,5 +14,5 @@ const UserSchema = mongoose.Schema({
         timestamps : true
     }
 );
-const usermodel = mongoose.model('Admin-auth',UserSchema)
+const usermodel = mongoose.model('Admin-authencation',UserSchema)
 module.exports = usermodel;

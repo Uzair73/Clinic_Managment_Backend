@@ -1,16 +1,17 @@
 const express= require('express'); // import express js
-const users = require('../../../Models/Users/User'); // import user-schema model
+const users = require('../../../Models/User/user-auth'); // import userschema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
+// var fetchusers = require('../middleware/fetchusers')
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 
 
-//Router 2)Login a user using post request:
-router.post('/login',[
-    // password must be at least 3 characters long
+//Router 2)Login a user using post request: /auth/login : no login required
+router.post('/user-login',[
+    // password must be at least 5 chars long
     body('Password','Password must be atleast 3 characters long').isLength({ min: 3 }),
-    // username must be atleast 3 characters long
+    // username must be an email
     body('User_Name', 'User_Name must be atleast 3 characters long').isLength({ min: 3 }),
   ] , async (req,res) =>{
     let success = false;

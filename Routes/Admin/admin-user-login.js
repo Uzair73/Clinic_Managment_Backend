@@ -1,17 +1,17 @@
 const express= require('express'); // import express js
-const admin_user = require('../../Models/Admins/Admin_auth'); // import admin-schema model
+const admin_user = require('../../Models/Admin/admin-auth'); // import admin-user-signup-schema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
+// var fetchusers = require('../middleware/fetchusers')
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 
-
-//Router 2)Login a admin-user using post request:
+//Router 2)Login a admin-user using post request
 router.post('/admin-login',[
     // password must be at least 3 chars long
-    body('Password','Password must be atleast 3 characters long').isLength({ min: 3 }),
-    // Email must be an unique
-    body('Email', 'Email must be atleast 3 characters long and unique').isLength({ min: 3 }),
+    body('Password','Password must be atleast 3 chara long').isLength({ min: 3 }),
+    // username must be an email
+    body('Email', 'Enter a valid Email').isEmail(),
   ] , async (req,res) =>{
     let success = false;
   // Finds the validation errors in this request and wraps them in an object with handy functions
@@ -47,4 +47,5 @@ router.post('/admin-login',[
   }
   })
 
-  module.exports = router;
+ module.exports = router;
+  

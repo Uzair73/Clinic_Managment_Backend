@@ -1,19 +1,21 @@
 const express= require('express'); // import express js
-const admin = require('../../Models/Admins/Admin_auth'); // import admin-schema model
+const admin_user = require('../../Models/Admin/admin-auth'); // import admin-user-signup-schema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
+// var fetchusers = require('../middleware/fetchusers')
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 
 
 
-//Router 1) Create a Admin-user using post request:
+//Router 1) Create a admin-user using post request:
  router.post('/admin-signup',[
-    // Email must be at least 3 chars long
-    body('Email','Email must be atleast 3 charaters long and unique').isLength({ min: 3 }),
+    // First_Name must be at least 3 chars long
+    body('Email','First_Name must be atleast 3 charaters long').isEmail(),
+
     // Password must be at least 3 chars long
     body('Password','Password must be atleast 3 charaters long').isLength({ min: 3 }),
- ] , async (req,res) =>{
+] , async (req,res) =>{
      let success = false;
  // Finds the validation errors in this request and wraps them in an object with handy functions
    const errors = validationResult(req);
@@ -23,15 +25,15 @@ const { body, validationResult } = require('express-validator'); //import expres
  }
  try {
    //To check the user that this email alreday exists or not.
- let user = await admin.findOne({Email:req.body.Email});
+ let user = await admin_user.findOne({User_Name:req.body.User_Name});
  if (user) { //if users already exits sending bad request
-   return res.status(400).json({success,error: "Sorry this email already exists"});
+   return res.status(400).json({success,error: "Sorry this User_Name already exists"});
  }
  // addign a bcrypt salt to protect users passwords
  const webtoken = '554$0@32'
  const salt = await bcrypt.genSalt(10); //Generating a password hash
  const secpass = await bcrypt.hash(req.body.Password,salt)
-  user = await admin.create({
+  user = await admin_user.create({
    Email: req.body.Email,
    Password: secpass,
  })
