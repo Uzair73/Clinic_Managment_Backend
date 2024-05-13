@@ -16,8 +16,12 @@ app.use('/auth',require('./Routes/User/Auth/signup.js'))
 app.use('/auth',require('./Routes/User/Auth/login.js'))
 app.use('/auth',require('./Routes/User/Auth/user-details.js'))
 
-app.use('/auth',require('./Routes/Admin/admin-user-signup.js'))
-app.use('/auth',require('./Routes/Admin/admin-user-login.js'))
+app.use('/admin-auth',require('./Routes/Admin/admin-user-signup.js')) 
+app.use('/admin-auth',require('./Routes/Admin/admin-user-login.js'))
+app.use('/admin',require('./Routes/Admin/add-doctor.js'))
+app.use('/admin',require('./Routes/Admin/fetch-doctor.js'))
+app.use('/admin',require('./Routes/Admin/update_doctor.js'))
+app.use('/admin',require('./Routes/Admin/delete_doctor.js'))
 
 
 app.listen(port, () => {

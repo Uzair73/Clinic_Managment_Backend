@@ -1,16 +1,15 @@
 const express= require('express'); // import express js
-const admin_user = require('../../Models/Admin/admin-auth'); // import admin-user-signup-schema model
+const admin_user = require('../../Models/Admin/admin-auth'); // import admin-auth schema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
-// var fetchusers = require('../middleware/fetchusers')
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 
 //Router 2)Login a admin-user using post request
-router.post('/admin-login',[
-    // password must be at least 3 chars long
-    body('Password','Password must be atleast 3 chara long').isLength({ min: 3 }),
-    // username must be an email
+router.post('/login',[
+    // Password must be at least 5 chars long
+    body('Password','Password must be atleast 5 chara long').isLength({ min: 5 }),
+    // Enter a valid email
     body('Email', 'Enter a valid Email').isEmail(),
   ] , async (req,res) =>{
     let success = false;
