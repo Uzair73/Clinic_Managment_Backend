@@ -1,20 +1,19 @@
 const express= require('express'); // import express js
-const users = require('../../../Models/User/user-auth'); // import userschema model
+const user_model = require('../../../Models/User/user-auth'); // import user-schema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
-// var fetchusers = require('../middleware/fetchusers')
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 
 
 
-//Router 1) create a user using post request: /api/auth/signup : no login required
+//Router 1) Create a user using post request:
  router.post('/user-signup',[
     // First_Name must be at least 3 chars long
-    body('First_Name','First_Name must be atleast 3 charaters long').isLength({ min: 3 }),
+    body('First_Name','First_Name must be atleast 3 characters long').isLength({ min: 3 }),
 
     // Last_Name must be at least 3 chars long
-    body('Last_Name','Password must be atleast 3 charaters long').isLength({ min: 3 }),
+    body('Last_Name','Password must be atleast 3 characters long').isLength({ min: 3 }),
 
     // User_Name must be at least 3 chars long
     body('User_Name','User_Name must be 3 characters long').isLength({ min: 3 }),
@@ -23,7 +22,13 @@ const { body, validationResult } = require('express-validator'); //import expres
     body('Phone_Number','Phone_Number must be min 5').isLength({ min: 5 }),
 
     // Password must be at least 3 chars long
-    body('Password','Password must be atleast 3 charaters long').isLength({ min: 3 }),
+    body('Password','Password must be atleast 3 characters long').isLength({ min: 3 }),
+
+    // Age must be written
+    body('Age','Age must be written').not().isEmpty(),
+
+    // Gender must be written
+    body('Gender','Gender must be Written').not().isEmpty(),
 
 
 
@@ -37,7 +42,7 @@ const { body, validationResult } = require('express-validator'); //import expres
  }
  try {
    //To check the user that this email alreday exists or not.
- let user = await users.findOne({User_Name:req.body.User_Name});
+ let user = await user_model.findOne({User_Name:req.body.User_Name});
  if (user) { //if users already exits sending bad request
    return res.status(400).json({success,error: "Sorry this User_Name already exists"});
  }
@@ -45,12 +50,14 @@ const { body, validationResult } = require('express-validator'); //import expres
  const webtoken = '554$0@32'
  const salt = await bcrypt.genSalt(10); //Generating a password hash
  const secpass = await bcrypt.hash(req.body.Password,salt)
-  user = await users.create({
+  user = await user_model.create({
    First_Name: req.body.First_Name,
    Last_Name: req.body.Last_Name,
    User_Name: req.body.User_Name,
    Phone_Number: req.body.Phone_Number,
    Password: secpass,
+   Age: req.body.Age,
+   Gender: req.body.Gender,
  })
  const data = {
    user :{

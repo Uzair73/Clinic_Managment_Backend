@@ -20,11 +20,19 @@ const UserSchema = mongoose.Schema({
     Password:{
         type: String,
         required: true
+    },
+    Age:{
+        type: String,
+        require : true
+    },
+    Gender:{
+        type: String,
+        require : true
     }
 },
     {
         timestamps : true
     }
 );
-const usermodel = mongoose.model('Users',UserSchema)
+const usermodel = mongoose.model('User-authentication',UserSchema)
 module.exports = usermodel;

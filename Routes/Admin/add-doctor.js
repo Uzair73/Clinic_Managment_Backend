@@ -1,5 +1,5 @@
 const express= require('express'); // import express js
-const add_doctor = require('../../Models/Admin/add-doctor'); // import add-doctor-schema model
+const admin_model = require('../../Models/Admin/add-doctor'); // import admin-schema model
 const  router = express.Router(); // import router express to take a paths
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 var valid_admin_user = require('../../middleware/fetchuser')
@@ -9,7 +9,7 @@ router.post('/add-doctor',valid_admin_user,[
     // First_Name must be at least 5 chars long
     body('First_Name','First_Name must be atleast 5 charaters long').isLength({ min: 5 }),
     // Last_Name must be at least 3 chars long
-    body('Last_Name','Last_Name must be atleast 5 charaters long').isLength({ min: 3 }),
+    body('Last_Name','Last_Name must be atleast 3 charaters long').isLength({ min: 3 }),
     // Schedule must be written
     body('Schedule','Schedule must be written').not().isEmpty(),
     // Status must be written
@@ -23,7 +23,7 @@ router.post('/add-doctor',valid_admin_user,[
    return res.status(400).json({ errors: errors.array() });
    }
     const {First_Name,Last_Name,Schedule,Status,user_id} = req.body;
-    const doctor = await new add_doctor ({
+    const doctor = await new admin_model ({
         First_Name,Last_Name,Schedule,Status,user_id
        })
       const savedoctor = await doctor.save();

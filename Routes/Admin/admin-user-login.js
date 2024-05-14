@@ -1,5 +1,5 @@
 const express= require('express'); // import express js
-const admin_user = require('../../Models/Admin/admin-auth'); // import admin-auth schema model
+const admin_model = require('../../Models/Admin/admin-auth'); // import admin-schema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
@@ -22,7 +22,7 @@ router.post('/login',[
   const webtoken = '554$0@32'
   const {Email,Password} = req.body;
   try {
-    let user = await admin_user.findOne({Email})
+    let user = await admin_model.findOne({Email})
     if(!user){
       return res.status(400).json('Please try to login using correct credentials')
     }

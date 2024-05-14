@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-    Email:{
+    Appointment_Date:{
         type : String,
         required: true
     },
-    Password:{
+    Appointment_Time:{
+        type : String,
+        required: true
+    },
+    Issue:{
         type : String,
         required: true
     }
@@ -14,5 +18,5 @@ const UserSchema = mongoose.Schema({
         timestamps : true
     }
 );
-const usermodel = mongoose.model('Admin-authentication',UserSchema)
+const usermodel = mongoose.model('User_Appointment',UserSchema)
 module.exports = usermodel;

@@ -1,6 +1,6 @@
 const express= require('express');
 const  router = express.Router();
-const doctor = require('../../Models/Admin/add-doctor'); // import admin-doctor schema model
+const admin_model = require('../../Models/Admin/add-doctor'); // import admin-schema model
 var valid_admin_user= require('../../middleware/fetchuser')
 
 //Router 5)Update & create new doctor-list if admin wants using put request: login required
@@ -14,7 +14,7 @@ router.put('/update-doctor-info/:id',valid_admin_user,async (req,res)=>{
       if(Status){update_doctor.Status = Status}
      
       //Find the doctor to be update & updated it.
-      let update_doc = await doctor.findByIdAndUpdate(req.params.id,{$set:update_doctor},{new:true})
+      let update_doc = await admin_model.findByIdAndUpdate(req.params.id,{$set:update_doctor},{new:true})
       res.json(update_doc)
     }catch (error) {
       console.error(error.message)
