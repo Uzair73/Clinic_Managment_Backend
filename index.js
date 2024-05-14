@@ -27,6 +27,7 @@ app.use('/admin',require('./Routes/Admin/add-doctor.js'))
 app.use('/admin',require('./Routes/Admin/fetch-doctor.js'))
 app.use('/admin',require('./Routes/Admin/update_doctor.js'))
 app.use('/admin',require('./Routes/Admin/delete_doctor.js'))
+app.use('/admin',require('./Routes/Admin/img_upload.js'))
 
 
 app.listen(port, () => {
