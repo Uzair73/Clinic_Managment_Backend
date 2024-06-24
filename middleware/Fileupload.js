@@ -1,14 +1,18 @@
-const multer = require('multer'); //For file or img uploding
-
-
-// Configure Multer
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname);
+var jwt = require('jsonwebtoken');  //import json web token
+const webtoken = '554$0@32'
+const fetch_id = (req,res,next)=>{
+    //Get the user from the jwt token & add id to req to object
+    const token = req.header('img-token')
+    if(!token){
+        res.status(401).send({error:'Please authenticate using a valid token'})
     }
-  });
-  const upload = multer({ storage: storage });
-  console.log(upload)
+    try {
+       const data = jwt.verify(token, webtoken)
+        req.user = data.user
+        next()
+    }catch (error) {
+        console.error(error.message)
+        res.status(401).send({error:'Please authenticate using a valid token'})
+      }
+}
+module.exports = fetchusers

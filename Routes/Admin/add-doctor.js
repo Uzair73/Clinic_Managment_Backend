@@ -1,37 +1,64 @@
-const express = require('express'); // import express js
+const express = require('express');
+const mongoose = require('mongoose'); // import mongoose for ObjectId
 const admin_model = require('../../Models/Admin/add-doctor'); // import admin-schema model
-const router = express.Router(); // import router express to take a paths
-const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
-var valid_admin_user = require('../../middleware/fetchuser')
+const img_schema = require('../../Models/Admin/image'); // import img-schema model
+const router = express.Router();
+const { body, validationResult } = require('express-validator'); // import express validator
+var valid_admin_user = require('../../middleware/fetchuser'); // import middleware for authentication
 
-//Router 3)Add doctor if admin wants : login required
-router.post('/add-doctor', valid_admin_user, [
-  // First_Name must be at least 5 chars long
-  body('First_Name', 'First_Name must be atleast 5 charaters long').isLength({ min: 5 }),
-  // Last_Name must be at least 3 chars long
-  body('Last_Name', 'Last_Name must be atleast 3 charaters long').isLength({ min: 3 }),
-  // Schedule must be written
+const multer = require('multer'); // For file or image uploading
+const path = require('path'); // import path module to handle file paths
+
+// Configure Multer for file storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'doctor_img/'); // destination folder for uploaded images
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // original filename
+  }
+});
+const upload = multer({ storage: storage });
+
+// Combined Route: Add doctor and upload image
+router.post('/add-doctor', valid_admin_user, upload.single('image'), [
+  body('First_Name', 'First_Name must be at least 5 characters long').isLength({ min: 5 }),
+  body('Last_Name', 'Last_Name must be at least 3 characters long').isLength({ min: 3 }),
   body('Schedule', 'Schedule must be written').not().isEmpty(),
-  // Status must be written
   body('Status', 'Status must be written').not().isEmpty(),
 ], async (req, res) => {
   try {
-    // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
-    // IF there are errors, sending bad request
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { First_Name, Last_Name, Schedule, Status, user_id } = req.body;
-    const doctor = await new admin_model({
-      First_Name, Last_Name, Schedule, Status, user_id
-    })
+
+    const { First_Name, Last_Name, Schedule, Status } = req.body;
+
+    let newImageData;
+    if (req.file) {
+      const newImage = new img_schema({
+        filename: req.file.originalname,
+        path: req.file.path,
+        mimetype: req.file.mimetype
+      });
+      newImageData = await newImage.save();
+    }
+
+    const doctor = new admin_model({
+      First_Name,
+      Last_Name,
+      Schedule,
+      Status,
+      Image: newImageData ? new mongoose.Types.ObjectId(newImageData._id) : null // Ensure correct ObjectId usage
+    });
+
     const savedoctor = await doctor.save();
-    res.json(savedoctor)
+    res.json(savedoctor);
   } catch (error) {
-    console.error(error.message)
-    res.status(500).send('Internal Server Error')
+    console.error(error.message);
+    res.status(500).send('Internal Server Error');
   }
-})
+});
 
 module.exports = router;

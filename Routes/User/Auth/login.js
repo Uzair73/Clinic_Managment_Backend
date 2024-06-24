@@ -1,9 +1,11 @@
 const express= require('express'); // import express js
 const user_model = require('../../../Models/User/user-auth'); // import user-schema model
+const img_schema = require('../../../Models/User/image'); // import img-schema model
 const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
+var valid_user = require('../../../middleware/fetchuser')
 
 
 //Router 2)Login a user using post request:
@@ -21,9 +23,11 @@ router.post('/user-login',[
     return res.status(400).json({errors: errors.array() });
   }
   const webtoken = '554$0@32'
-  const {User_Name,Password} = req.body;
+  const {User_Name,Password,filename} = req.body;
   try {
     let user = await user_model.findOne({User_Name})
+    let user_img = await img_schema.findOne(filename)
+    console.log(user_img)
     if(!user){
       return res.status(400).json('Please try to login using correct credentials')
     }
@@ -34,6 +38,9 @@ router.post('/user-login',[
     const data = {
       user :{
         id: user.id
+      },
+      img:{
+        id: user_img.id
       }
     }
     console.log(data)
