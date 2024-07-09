@@ -27,6 +27,8 @@ router.post('/add-doctor', valid_admin_user, upload.single('image'), [
   body('Schedule', 'Schedule must be written').not().isEmpty(),
   body('Status', 'Status must be written').not().isEmpty(),
 ], async (req, res) => {
+  console.log("\n\n\n backend")
+  console.log(req.body)
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
