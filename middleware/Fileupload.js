@@ -1,5 +1,7 @@
 var jwt = require('jsonwebtoken');  //import json web token
-const webtoken = '554$0@32'
+const dotenv = require('dotenv');
+dotenv.config();
+const webtoken = process.env.TOKEN_SECREAT
 const fetch_id = (req,res,next)=>{
     //Get the user from the jwt token & add id to req to object
     const token = req.header('img-token')

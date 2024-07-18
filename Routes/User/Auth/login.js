@@ -6,6 +6,8 @@ const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
 var valid_user = require('../../../middleware/fetchuser')
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 //Router 2)Login a user using post request:
@@ -22,12 +24,10 @@ router.post('/user-login',[
     if (!errors.isEmpty()) {
     return res.status(400).json({errors: errors.array() });
   }
-  const webtoken = '554$0@32'
-  const {User_Name,Password,filename} = req.body;
+  const webtoken = process.env.TOKEN_SECREAT //Token secreat
+  const {User_Name,Password} = req.body;
   try {
     let user = await user_model.findOne({User_Name})
-    let user_img = await img_schema.findOne(filename)
-    console.log(user_img)
     if(!user){
       return res.status(400).json('Please try to login using correct credentials')
     }
@@ -38,9 +38,6 @@ router.post('/user-login',[
     const data = {
       user :{
         id: user.id
-      },
-      img:{
-        id: user_img.id
       }
     }
     console.log(data)

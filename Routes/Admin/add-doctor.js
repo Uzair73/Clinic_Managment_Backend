@@ -7,7 +7,6 @@ const { body, validationResult } = require('express-validator'); // import expre
 var valid_admin_user = require('../../middleware/fetchuser'); // import middleware for authentication
 
 const multer = require('multer'); // For file or image uploading
-const path = require('path'); // import path module to handle file paths
 
 // Configure Multer for file storage
 const storage = multer.diskStorage({
@@ -27,8 +26,6 @@ router.post('/add-doctor', valid_admin_user, upload.single('image'), [
   body('Schedule', 'Schedule must be written').not().isEmpty(),
   body('Status', 'Status must be written').not().isEmpty(),
 ], async (req, res) => {
-  console.log("\n\n\n backend")
-  console.log(req.body)
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -58,7 +55,6 @@ router.post('/add-doctor', valid_admin_user, upload.single('image'), [
     const savedoctor = await doctor.save();
     res.json(savedoctor);
   } catch (error) {
-    console.error(error.message);
     res.status(500).send('Internal Server Error');
   }
 });

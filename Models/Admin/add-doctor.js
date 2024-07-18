@@ -24,6 +24,5 @@ const userschema = new mongoose.Schema({
 }, {
     timestamps: true
 });
-// Create the User model
 const usermodel = mongoose.model('Doctor_list', userschema);
 module.exports = usermodel;

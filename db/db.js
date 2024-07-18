@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 mongoose.set("strictQuery", false);
-const mongoURI = "mongodb+srv://uzairhakeem71:uzair123456789@cluster0.rbb6dtw.mongodb.net/Clinic-Management-System"
-
+const dotenv = require('dotenv');
+dotenv.config();
+const mongoURI = process.env.MONGODB_URI
 
 
 const connectToMongo = async () => {

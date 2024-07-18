@@ -4,6 +4,8 @@ const  router = express.Router(); // import router express to take a paths
 const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 var jwt = require('jsonwebtoken');  //import json web token
 const { body, validationResult } = require('express-validator'); //import express validator to checks the endpoints.
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 
@@ -29,7 +31,7 @@ const { body, validationResult } = require('express-validator'); //import expres
    return res.status(400).json({success,error: "Sorry this Email already exists"});
  }
  // addign a bcrypt salt to protect users passwords
- const webtoken = '554$0@32'
+ const webtoken = process.env.TOKEN_SECREAT //Token secreat
  const salt = await bcrypt.genSalt(10); //Generating a password hash
  const secpass = await bcrypt.hash(req.body.Password,salt)
   user = await admin_model.create({
@@ -37,7 +39,7 @@ const { body, validationResult } = require('express-validator'); //import expres
    Password: secpass,
  })
  const data = {
-   user :{
+   admin_user :{
      id: user.id
    }
  } 

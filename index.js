@@ -3,12 +3,14 @@ var cors = require('cors') //Import cores using express
 const connecttoMongoose = require('./db/db.js')
 connecttoMongoose();
 //import express
+const dotenv = require('dotenv');
+dotenv.config();
 
 const express = require('express')
 const app = express()
 const bodyParser=require('body-parser');
 app.use(cors()) //use cores to fetch the data in the browser
-const port = 5000
+const port = process.env.PORT
 //req to server using json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));//Routes(paths)
