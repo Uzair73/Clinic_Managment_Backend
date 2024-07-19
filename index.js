@@ -9,7 +9,16 @@ dotenv.config();
 const express = require('express')
 const app = express()
 const bodyParser=require('body-parser');
-app.use(cors()) //use cores to fetch the data in the browser
+
+// Cors Policy
+const corsOptions = {
+  origin: ['https://example.com', 'https://another-domain.com'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Allow cookies to be sent
+  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(cors(corsOptions));
 const port = process.env.PORT
 //req to server using json
 app.use(bodyParser.json());
