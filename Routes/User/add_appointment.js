@@ -13,6 +13,12 @@ router.post('/add-appointment',valid_user,[
     // Issue must be atleast 10 charaters long
     body('Issue','Issue must be atleast 10 charaters long').isLength({ min: 10 })
 ], async (req,res)=>{
+   // CORS
+   res.setHeader("Access-Control-Allow-Origin", "*")
+   res.setHeader("Access-Control-Allow-Credentials", "true");
+   res.setHeader("Access-Control-Max-Age", "1800");
+   res.setHeader("Access-Control-Allow-Headers", "content-type");
+   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
       try {
  // Finds the validation errors in this request and wraps them in an object with handy functions
  const errors = validationResult(req);

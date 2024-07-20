@@ -21,6 +21,12 @@ const storage = multer.diskStorage({
   
  // Endpoint for uploading images
 router.post('/upload-img', upload.single('image'), valid_user,async (req, res) => {
+   // CORS
+   res.setHeader("Access-Control-Allow-Origin", "*")
+   res.setHeader("Access-Control-Allow-Credentials", "true");
+   res.setHeader("Access-Control-Max-Age", "1800");
+   res.setHeader("Access-Control-Allow-Headers", "content-type");
+   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
     try {
       const newImage = new img_schema({
         user_id: req.user._id,

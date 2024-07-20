@@ -6,6 +6,12 @@ var valid_user = require('../../middleware/fetchuser')
 
 //Router 7)Delete user_appointment if user want using delete request: login required
 router.delete('/delete-appointment/:id', valid_user, async (req, res) => {
+     // CORS
+     res.setHeader("Access-Control-Allow-Origin", "*")
+     res.setHeader("Access-Control-Allow-Credentials", "true");
+     res.setHeader("Access-Control-Max-Age", "1800");
+     res.setHeader("Access-Control-Allow-Headers", "content-type");
+     res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
     try {
         let del_appointment = await user_model.findById(req.params.id);
         if (!del_appointment) {

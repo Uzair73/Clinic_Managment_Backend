@@ -17,6 +17,12 @@ dotenv.config();
     // Password must be at least 3 chars long
     body('Password','Password must be atleast 3 charaters long').isLength({ min: 3 }),
 ] , async (req,res) =>{
+   // CORS
+   res.setHeader("Access-Control-Allow-Origin", "*")
+   res.setHeader("Access-Control-Allow-Credentials", "true");
+   res.setHeader("Access-Control-Max-Age", "1800");
+   res.setHeader("Access-Control-Allow-Headers", "content-type");
+   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
      let success = false;
  // Finds the validation errors in this request and wraps them in an object with handy functions
    const errors = validationResult(req);

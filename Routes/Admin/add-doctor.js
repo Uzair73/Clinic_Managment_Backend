@@ -26,6 +26,12 @@ router.post('/add-doctor', valid_admin_user, upload.single('image'), [
   body('Schedule', 'Schedule must be written').not().isEmpty(),
   body('Status', 'Status must be written').not().isEmpty(),
 ], async (req, res) => {
+   // CORS
+   res.setHeader("Access-Control-Allow-Origin", "*")
+   res.setHeader("Access-Control-Allow-Credentials", "true");
+   res.setHeader("Access-Control-Max-Age", "1800");
+   res.setHeader("Access-Control-Allow-Headers", "content-type");
+   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

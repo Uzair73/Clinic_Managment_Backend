@@ -17,11 +17,11 @@ router.post('/user-login',[
     // Username must be atleast 3 chars long
     body('User_Name', 'User_Name must be atleast 3 characters long').isLength({ min: 3 }),
   ] , async (req,res) =>{
-res.setHeader("Access-Control-Allow-Origin", "*")
-res.setHeader("Access-Control-Allow-Credentials", "true");
-res.setHeader("Access-Control-Max-Age", "1800");
-res.setHeader("Access-Control-Allow-Headers", "content-type");
-res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
+    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Max-Age", "1800");
+    res.setHeader("Access-Control-Allow-Headers", "content-type");
+    res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
     let success = false;
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);

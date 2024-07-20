@@ -6,6 +6,12 @@ const bcrypt = require('bcryptjs'); //import bcrypt js to protect password
 
 //Router 3)Update user-information if user wants using put request: login required
 router.put('/update-info/:id',valid_user,async (req,res)=>{
+   // CORS
+   res.setHeader("Access-Control-Allow-Origin", "*")
+   res.setHeader("Access-Control-Allow-Credentials", "true");
+   res.setHeader("Access-Control-Max-Age", "1800");
+   res.setHeader("Access-Control-Allow-Headers", "content-type");
+   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
     try {
       const salt = await bcrypt.genSalt(10); //Generating a password hash
       const secpass = await bcrypt.hash(req.body.Password,salt)

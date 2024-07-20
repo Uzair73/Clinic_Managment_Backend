@@ -7,6 +7,12 @@ const multer = require('multer');
 const upload = multer();
 
 router.put('/update-doctor-info/:id', valid_admin_user, upload.none(), async (req, res) => {
+   // CORS
+   res.setHeader("Access-Control-Allow-Origin", "*")
+   res.setHeader("Access-Control-Allow-Credentials", "true");
+   res.setHeader("Access-Control-Max-Age", "1800");
+   res.setHeader("Access-Control-Allow-Headers", "content-type");
+   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
   try {
     const { First_Name, Last_Name, Schedule, Status } = req.body;
     const update_doctor = {};

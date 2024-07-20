@@ -5,6 +5,12 @@ var fetchuser = require('../../../middleware/fetchuser')
 
 //Router 4)Get a user  details using post request: /api/auth/login :login required
 router.post('/fetch-user', fetchuser,  async (req, res) => {
+   // CORS
+   res.setHeader("Access-Control-Allow-Origin", "*")
+   res.setHeader("Access-Control-Allow-Credentials", "true");
+   res.setHeader("Access-Control-Max-Age", "1800");
+   res.setHeader("Access-Control-Allow-Headers", "content-type");
+   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
 
   try {
     const userId = req.user.id;

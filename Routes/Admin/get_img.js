@@ -7,6 +7,12 @@ const path = require('path'); // import path module to handle file paths
 
 // Endpoint for retrieving images
 router.get('/image/:id', async (req, res) => {
+     // CORS
+     res.setHeader("Access-Control-Allow-Origin", "*")
+     res.setHeader("Access-Control-Allow-Credentials", "true");
+     res.setHeader("Access-Control-Max-Age", "1800");
+     res.setHeader("Access-Control-Allow-Headers", "content-type");
+     res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
     try {
         const image = await img_schema.findById(req.params.id);
         if (!image) {
