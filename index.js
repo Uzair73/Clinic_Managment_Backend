@@ -11,14 +11,8 @@ const app = express()
 const bodyParser=require('body-parser');
 
 // Cors Policy
-const corsOptions = {
-  origin: ['*'],
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Allow cookies to be sent
-  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-app.use(cors(corsOptions);
+const allowedOrigins = ['https://clinic-managment-backend-api.vercel.app', 'https://clinic-managment-frontend.vercel.app/'];
+app.use(cors())
 app.use(bodyParser.json())
 
 
