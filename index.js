@@ -12,7 +12,7 @@ const bodyParser=require('body-parser');
 
 // Cors Policy
 const allowedOrigins = ['https://clinic-managment-backend-api.vercel.app/', https://clinic-managment-frontend.vercel.app/'];
-app.use(cors(corsOptions));
+app.use(cors(allowedOrigins));
 app.use(bodyParser.json())
 
 
