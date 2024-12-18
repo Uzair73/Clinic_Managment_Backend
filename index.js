@@ -11,12 +11,13 @@ const app = express()
 const bodyParser=require('body-parser');
 
 // Cors Policy
-const allowedOrigins = ['https://clinic-managment-backend-api.vercel.app', https://clinic-managment-frontend.vercel.app/'];
+const allowedOrigins = ['https://clinic-managment-backend-api.vercel.app/', https://clinic-managment-frontend.vercel.app/'];
 app.use(cors(corsOptions));
+app.use(bodyParser.json())
+
+
 const port = process.env.PORT
 //req to server using json
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));//Routes(paths)
 
 //User endpoint middleware
 app.use('/auth',require('./Routes/User/Auth/signup.js'))
